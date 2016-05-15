@@ -34,8 +34,18 @@ class taskfile:
         t = task(id, name)
         self.tasks[id] = t
 
+        print("Task \"{}\" added (id: {})".format(name, id))
+
     def remove(self, id):
+        name = self.tasks[id].name
         del self.tasks[id]
+
+        print("Task \"{}\" deleted (id: {})".format(name, id))
+
+    def show(self):
+        print("----- Tasks -----\n")
+        print(self.__str__())
+        print("----- ~ -----")
 
     def __str__(self):
         string = ""
