@@ -14,7 +14,7 @@ def print_usage():
     print("-d <number1(,number2,...)>\t\tDelete one or many tasks (comma separated list of ids)")
 
 def main(args):
-    tf = taskfile(os.environ.get("HOME")+"/.config/tasky/.tasks")
+    tf = taskfile(os.environ.get("HOME")+"/.config/tasky/tasks")
 
     if(len(args) == 0):
         tf.show()

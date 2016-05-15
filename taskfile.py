@@ -33,7 +33,10 @@ class taskfile:
 
     # Adds a task to the task list
     def add(self, name):
-        id = list(self.tasks)[-1]+1
+        if len(self.tasks) > 0:
+            id = list(self.tasks)[-1]+1
+        else:
+            id = 1
         t = task(id, name)
         self.tasks[id] = t
 
