@@ -8,10 +8,10 @@ from taskfile import *
 def print_usage():
     print("Usage: {} <option> (argument)".format(sys.argv[0]))
     print("Options:")
-    print("-h\t\t\tDisplay this help message")
-    print("-l\t\t\tList all tasks")
-    print("-a <task name>\t\tAdd a task")
-    print("-d <task number>\tDelete a task")
+    print("-h\t\t\t\t\tDisplay this help message")
+    print("-l\t\t\t\t\tList all tasks")
+    print("-a <name>\t\t\t\tAdd a task")
+    print("-d <number1(,number2,...)>\t\tDelete one or many tasks (comma separated list of ids)")
 
 def main(args):
     tf = taskfile(os.environ.get("HOME")+"/.config/tasky/.tasks")
@@ -34,7 +34,7 @@ def main(args):
         elif opt in ("-a", "--add"):
             tf.add(arg)
         elif opt in ("-d", "--delete"):
-            tf.remove(int(arg))
+            tf.remove(arg.split(','))
 
     tf.save()
 

@@ -36,11 +36,15 @@ class taskfile:
 
         print("Task \"{}\" added (id: {})".format(name, id))
 
-    def remove(self, id):
-        name = self.tasks[id].name
-        del self.tasks[id]
+    def remove(self, ids):
+        for str_id in ids:
+            id = int(str_id)
+            if id in self.tasks.keys():
+                name = self.tasks[id].name
+                del self.tasks[id]
 
-        print("Task \"{}\" deleted (id: {})".format(name, id))
+                print("Task \"{}\" deleted (id: {})".format(name, id))
+
 
     def show(self):
         print("----- Tasks -----\n")
