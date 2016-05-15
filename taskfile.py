@@ -3,10 +3,12 @@ from collections import OrderedDict
 from task import *
 
 class taskfile:
+    # Class constructor
     def __init__(self, path):
         self.path = path
         self.tasks = self.parse()
 
+    # Reads and parses the task list file
     def parse(self):
         tasks_file = open(self.path, "r")
         str_tasks = tasks_file.read().split("\n")[:-1]
@@ -29,6 +31,7 @@ class taskfile:
 
         return tasks
 
+    # Adds a task to the task list
     def add(self, name):
         id = list(self.tasks)[-1]+1
         t = task(id, name)
@@ -36,6 +39,7 @@ class taskfile:
 
         print("Task \"{}\" added (id: {})".format(name, id))
 
+    # Removes a task to the task list
     def remove(self, ids):
         for str_id in ids:
             id = int(str_id)
@@ -46,11 +50,13 @@ class taskfile:
                 print("Task \"{}\" deleted (id: {})".format(name, id))
 
 
+    # Shows the task list
     def show(self):
         print("----- Tasks -----\n")
         print(self.__str__())
         print("----- ~ -----")
 
+    # Converts the task list to a string
     def __str__(self):
         string = ""
 
@@ -60,6 +66,7 @@ class taskfile:
 
         return string
 
+    # Saves the task list to file
     def save(self):
         tasks_file = open(self.path, "w")
         tasks_file.write(self.__str__())
