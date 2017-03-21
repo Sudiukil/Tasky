@@ -1,10 +1,9 @@
 # Tasky
 
- Simple and minimalist CLI task manager
+KISS todo list written in Python
 
 ## ToDo
 
-- Task renaming
-- Task list refactoring (renumbering of ids)
-- Config file
-- Tasks date
+- [x] Simple tasks management (add, delete, display)
+- [x] Tasks renaming
+- [ ] Task list refactoring (renumbering of ids)
