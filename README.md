@@ -2,8 +2,23 @@
 
 KISS todo list written in Python
 
-## ToDo
+## Features
 
 - [x] Simple tasks management (add, delete, display)
 - [x] Tasks renaming
-- [ ] Task list refactoring (renumbering of ids)
+- [x] Task list refactoring (renumbering of ids)
+
+## Getting started
+
+### Environment
+
+- Python 3.x
+
+### Quickstart
+
+1. `git clone https://github.com/Sudiukil/Tasky`
+- `python3 tasky.py` (or `chmod +x tasky.py` and `./tasky.py`)
+
+## Licence
+
+See [LICENSE](https://github.com/Sudiukil/Tasky/blob/master/LICENSE)

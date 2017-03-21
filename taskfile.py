@@ -10,7 +10,13 @@ class taskfile:
 
     # Reads and parses the task list file
     def parse(self):
-        tasks_file = open(self.path, "r")
+        try:
+            tasks_file = open(self.path, "r")
+        except IOError:
+            tasks_file = open(self.path, "w")
+            tasks_file.close()
+            tasks_file = open(self.path, "r")
+
         str_tasks = tasks_file.read().split("\n")[:-1]
         tasks_file.close()
 
@@ -60,6 +66,13 @@ class taskfile:
             self.tasks[id].name = name
 
         print("Task \"{}\" renamed to \"{}\" (id: {})".format(old_name, name, id))
+
+    # Refactors the task list
+    def refactor(self):
+        i = 1
+        for id in self.tasks.keys():
+            self.tasks[id].id = i
+            i += 1
 
     # Shows the task list
     def show(self):
