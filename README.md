@@ -17,7 +17,7 @@ KISS todo list written in Python
 ### Quickstart
 
 1. `git clone https://github.com/Sudiukil/Tasky`
-- `python3 tasky.py` (or `chmod +x tasky.py` and `./tasky.py`)
+2. `python3 tasky.py` (or `chmod +x tasky.py` and `./tasky.py`)
 
 ## Licence
 
