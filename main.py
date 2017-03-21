@@ -1,41 +1,31 @@
 #!/usr/bin/python
 #vim: set fileencoding=utf8
 
-import sys, getopt, os
+import os, argparse
 
 from taskfile import *
 
-def print_usage():
-    print("Usage: {} <option> (argument)".format(sys.argv[0]))
-    print("Options:")
-    print("-h\t\t\t\t\tDisplay this help message")
-    print("-l\t\t\t\t\tList all tasks")
-    print("-a <name>\t\t\t\tAdd a task")
-    print("-d <number1(,number2,...)>\t\tDelete one or many tasks (comma separated list of ids)")
+parser  = argparse.ArgumentParser(description="KISS task manager")
+p = parser.add_mutually_exclusive_group()
 
-def main(args):
-    tf = taskfile(os.environ.get("HOME")+"/.config/tasky/tasks")
+p.add_argument("-l", action="store_true", help="list tasks")
+p.add_argument("-a", nargs=1, type=str, metavar="<name>", help="add task")
+p.add_argument("-d", nargs='+', type=int, metavar="<id>", help="delete task")
+p.add_argument("-r", nargs=2, metavar=("<id>", "<name>"), help="rename task")
 
-    if(len(args) == 0):
-        tf.show()
-        sys.exit(1)
+args = parser.parse_args()
 
-    try:
-        opts, args = getopt.getopt(args, "hla:d:", ["add=", "delete="])
-    except getopt.GetoptError:
-        print_usage()
-        sys.exit(1)
+tf = taskfile(os.environ.get("HOME")+"/.config/tasky/tasks")
 
-    for opt, arg in opts:
-        if opt == "-h":
-            print_usage()
-        elif opt == "-l":
-            tf.show()
-        elif opt in ("-a", "--add"):
-            tf.add(arg)
-        elif opt in ("-d", "--delete"):
-            tf.remove(arg.split(','))
+if args.l:
+    tf.show()
+elif args.a:
+    tf.add(args.a[0])
+elif args.d:
+    tf.remove(args.d)
+elif args.r:
+    tf.rename(int(args.r[0]), args.r[1])
+else:
+    tf.show()
 
-    tf.save()
-
-main(sys.argv[1:])
+tf.save()

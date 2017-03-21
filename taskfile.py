@@ -42,16 +42,24 @@ class taskfile:
 
         print("Task \"{}\" added (id: {})".format(name, id))
 
-    # Removes a task to the task list
+    # Removes one or many tasks from the task list
     def remove(self, ids):
-        for str_id in ids:
-            id = int(str_id)
+        for id in ids:
             if id in self.tasks.keys():
                 name = self.tasks[id].name
                 del self.tasks[id]
-
                 print("Task \"{}\" deleted (id: {})".format(name, id))
+            else:
+                print("No task with id = {}".format(id))
 
+    # Renames a task
+    def rename(self, id, name):
+        id = int(id)
+        if id in self.tasks.keys():
+            old_name = self.tasks[id].name
+            self.tasks[id].name = name
+
+        print("Task \"{}\" renamed to \"{}\" (id: {})".format(old_name, name, id))
 
     # Shows the task list
     def show(self):
