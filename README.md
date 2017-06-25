@@ -1,6 +1,6 @@
 # Tasky
 
-KISS todo list written in Python
+KISS todo list manager
 
 ## Features
 

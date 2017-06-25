@@ -32,7 +32,6 @@ elif args.d:
 elif args.r:
     tf.rename(int(args.r[0]), args.r[1])
 elif args.R:
-    # print(args.R)
     tf.refactor()
 else:
     tf.show()
