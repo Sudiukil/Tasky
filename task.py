@@ -1,18 +1,19 @@
-class task:
-    # Class constructor
-    def __init__(self, id, name):
-        self.id = id
+"""Task class definition"""
+
+class Task:
+    """Task class, representing a task"""
+    def __init__(self, num, name):
+        self.num = num
         self.name = name
 
-    # Converts the task to a string
     def __str__(self):
-        return("["+self.str_id()+"] "+self.name)
+        return '['+self.str_num()+'] '+self.name
 
-    # Prepends zeroes to the task id to make it a 3-digits string id
-    def str_id(self):
-        if self.id<10:
-            return "00"+str(self.id)
-        elif self.id>=10 and self.id<100:
-            return "0"+str(self.id)
+    def str_num(self):
+        """Prepends zeroes to the task id to make it a 3-digits string id"""
+        if self.num < 10:
+            return '00'+str(self.num)
+        elif self.num >= 10 and self.num < 100:
+            return '0'+str(self.num)
         else:
-            return str(self.id)
+            return str(self.num)
