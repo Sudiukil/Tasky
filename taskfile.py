@@ -1,97 +1,89 @@
+"""Taskfile class definition"""
+
 from collections import OrderedDict
+from task import Task
 
-from task import *
-
-class taskfile:
-    # Class constructor
+class Taskfile:
+    """Taskfile class, represents a set of tasks to be saved in a file"""
     def __init__(self, path):
         self.path = path
         self.tasks = self.parse()
 
-    # Reads and parses the task list file
-    def parse(self):
-        try:
-            tasks_file = open(self.path, "r")
-        except IOError:
-            tasks_file = open(self.path, "w")
-            tasks_file.close()
-            tasks_file = open(self.path, "r")
+    def __str__(self):
+        """Converts the task list to a string"""
+        string = ''
 
-        str_tasks = tasks_file.read().split("\n")[:-1]
+        for k in self.tasks:
+            string += str(self.tasks[k])
+            string += '\n'
+
+        return string
+
+    def parse(self):
+        """Reads and parses the task list file"""
+        try:
+            tasks_file = open(self.path, 'r')
+        except IOError:
+            tasks_file = open(self.path, 'w')
+            tasks_file.close()
+            tasks_file = open(self.path, 'r')
+
+        str_tasks = tasks_file.read().split('\n')[:-1]
         tasks_file.close()
 
         tasks = OrderedDict()
 
-        for st in str_tasks:
-            start = st.find("[")+1
-            end = st.find("]", start)
-            id = int(st[start:end])
-            
-            start = st.find(" ")+1
-            end = len(st)
-            name = st[start:end]
+        for task_str in str_tasks:
+            start = task_str.find('[')+1
+            end = task_str.find(']', start)
+            task_id = int(task_str[start:end])
 
-            t = task(id, name)
+            start = task_str.find(' ')+1
+            end = len(task_str)
+            name = task_str[start:end]
 
-            tasks[id] = t
+            tasks[task_id] = Task(task_id, name)
 
         return tasks
 
-    # Adds a task to the task list
     def add(self, name):
+        """Adds a task to the task list"""
         if len(self.tasks) > 0:
-            id = list(self.tasks)[-1]+1
+            task_id = list(self.tasks)[-1]+1
         else:
-            id = 1
-        t = task(id, name)
-        self.tasks[id] = t
+            task_id = 1
 
-        print("Task \"{}\" added (id: {})".format(name, id))
+        self.tasks[task_id] = Task(task_id, name)
 
-    # Removes one or many tasks from the task list
+        print('Task "{}" added (task_id: {})'.format(name, task_id))
+
     def remove(self, ids):
-        for id in ids:
-            if id in self.tasks.keys():
-                name = self.tasks[id].name
-                del self.tasks[id]
-                print("Task \"{}\" deleted (id: {})".format(name, id))
+        """Removes one or many tasks from the task list"""
+        for task_id in ids:
+            if task_id in self.tasks.keys():
+                name = self.tasks[task_id].name
+                del self.tasks[task_id]
+                print('Task "{}" deleted (task_id: {})'.format(name, task_id))
             else:
-                print("No task with id = {}".format(id))
+                print('No task with task_id = {}'.format(task_id))
 
-    # Renames a task
-    def rename(self, id, name):
-        id = int(id)
-        if id in self.tasks.keys():
-            old_name = self.tasks[id].name
-            self.tasks[id].name = name
+    def rename(self, task_id, name):
+        """Renames a task"""
+        task_id = int(task_id)
+        if task_id in self.tasks.keys():
+            old_name = self.tasks[task_id].name
+            self.tasks[task_id].name = name
 
-        print("Task \"{}\" renamed to \"{}\" (id: {})".format(old_name, name, id))
+        print('Task "{}" renamed to "{}" (task_id: {})'.format(old_name, name, task_id))
 
-    # Refactors the task list
-    def refactor(self):
-        i = 1
-        for id in self.tasks.keys():
-            self.tasks[id].id = i
-            i += 1
-
-    # Shows the task list
     def show(self):
-        print("----- Tasks -----\n")
+        """Shows the task list"""
+        print('----- Tasks -----\n')
         print(self.__str__())
-        print("----- ~ -----")
+        print('----- ~ -----')
 
-    # Converts the task list to a string
-    def __str__(self):
-        string = ""
-
-        for k in self.tasks:
-            string += str(self.tasks[k])
-            string += "\n"
-
-        return string
-
-    # Saves the task list to file
     def save(self):
-        tasks_file = open(self.path, "w")
+        """Saves the task list to file"""
+        tasks_file = open(self.path, 'w')
         tasks_file.write(self.__str__())
         tasks_file.close()

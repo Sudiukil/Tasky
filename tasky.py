@@ -1,39 +1,38 @@
-#!/usr/bin/python
-#vim: set fileencoding=utf8
+"""Main Tasky file"""
 
-import os, argparse
+import os
+import argparse
+from taskfile import Taskfile
 
-from taskfile import *
+def parse_args():
+    """Return the parser for command line arguments"""
+    parser = argparse.ArgumentParser(description="KISS task manager")
+    parser_grp = parser.add_mutually_exclusive_group()
 
-parser  = argparse.ArgumentParser(description="KISS task manager")
-p = parser.add_mutually_exclusive_group()
+    parser_grp.add_argument('-l', action='store_true', help='list tasks')
+    parser_grp.add_argument('-a', nargs=1, type=str, metavar='<name>', help='add task')
+    parser_grp.add_argument('-d', nargs='+', type=int, metavar='<id>', help='delete task(s)')
+    parser_grp.add_argument('-r', nargs=2, metavar=('<id>', '<name>'), help='rename task')
 
-p.add_argument("-l", action="store_true", help="list tasks")
-p.add_argument("-a", nargs=1, type=str, metavar="<name>", help="add task")
-p.add_argument("-d", nargs='+', type=int, metavar="<id>", help="delete task(s)")
-p.add_argument("-r", nargs=2, metavar=("<id>", "<name>"), help="rename task")
-p.add_argument("-R", action="store_true", help="refactor task list")
+    return parser.parse_args()
 
-args = parser.parse_args()
+CONFIG_PATH = os.environ.get('HOME')+'/.config/tasky'
+ARGS = parse_args()
 
-config_path = os.environ.get("HOME")+"/.config/tasky"
+if not os.path.exists(CONFIG_PATH):
+    os.makedirs(CONFIG_PATH)
 
-if not os.path.exists(config_path):
-    os.makedirs(config_path);
+TASKFILE = Taskfile(CONFIG_PATH+'/tasks')
 
-tf = taskfile(config_path+"/tasks")
-
-if args.l:
-    tf.show()
-elif args.a:
-    tf.add(args.a[0])
-elif args.d:
-    tf.remove(args.d)
-elif args.r:
-    tf.rename(int(args.r[0]), args.r[1])
-elif args.R:
-    tf.refactor()
+if ARGS.l:
+    TASKFILE.show()
+elif ARGS.a:
+    TASKFILE.add(ARGS.a[0])
+elif ARGS.d:
+    TASKFILE.remove(ARGS.d)
+elif ARGS.r:
+    TASKFILE.rename(int(ARGS.r[0]), ARGS.r[1])
 else:
-    tf.show()
+    TASKFILE.show()
 
-tf.save()
+TASKFILE.save()
